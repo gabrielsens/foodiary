@@ -1,0 +1,31 @@
+org: sensgabriel
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: foodiary
+service: foodiary-api
+
+provider:
+  name: aws
+  region: sa-east-1
+  runtime: nodejs22.x
+  memorySize: 128
+
+package:
+  individually: true
+
+build:
+  esbuild:
+    bundle: true
+    minify: true
+    sourcemap: true
+    exclude:
+      - '@aws-sdk/*'
+    external:
+      - '@aws-sdk/*'
+
+functions:
+  hello:
+    handler: src/hello.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
