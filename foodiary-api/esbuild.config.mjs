@@ -2,7 +2,7 @@ import esbuildPluginTsc from 'esbuild-plugin-tsc';
 
 export default () => ({
   bundle: true,
-  minify: false,
+  minify: true,
   sourcemap: false,
   exclude: ['@aws-sdk/*'],
   external: ['@aws-sdk/*'],
