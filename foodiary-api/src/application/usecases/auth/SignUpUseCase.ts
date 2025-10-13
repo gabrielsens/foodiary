@@ -18,9 +18,11 @@ export class SignUpUseCase {
       throw new EmailAlreadIdUse();
     }
 
-    const { externalId } = await this.authGateway.signUp({ email, password });
+    const account = new Account({ email });
 
-    const account = new Account({ email, externalId });
+    const { externalId } = await this.authGateway.signUp({ email, password, internalId: account.id });
+
+    account.externalId = externalId;
 
     await this.accountRepository.create(account);
 

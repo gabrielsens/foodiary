@@ -5,6 +5,34 @@ signUp:
         path: /auth/sign-up
         method: POST
 
+signIn:
+  handler: src/main/functions/auth/signIn.handler
+  events:
+    - httpApi:
+        path: /auth/sign-in
+        method: POST
+
+refreshToken:
+  handler: src/main/functions/auth/refreshToken.handler
+  events:
+    - httpApi:
+        path: /auth/refresh-token
+        method: POST
+
+forgotPassword:
+  handler: src/main/functions/auth/forgotPassword.handler
+  events:
+    - httpApi:
+        path: /auth/forgot-password
+        method: POST
+
+confirmForgotPassword:
+  handler: src/main/functions/auth/confirmForgotPassword.handler
+  events:
+    - httpApi:
+        path: /auth/forgot-password/confirm
+        method: POST
+
 preSignUpTrigger:
   handler: src/main/functions/auth/cognito/preSignUpTrigger.handler
   events:
@@ -13,3 +41,8 @@ preSignUpTrigger:
         trigger: PreSignUp
         existing: true
         forceDeploy: true
+
+# Trigger manual pois não há suporte para o PreTokenGeneration V2
+# Go to UserPool.yml for the configuration
+preTokenGenerationTrigger:
+  handler: src/main/functions/auth/cognito/preTokenGenerationTrigger.handler
