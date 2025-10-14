@@ -1,3 +1,14 @@
+Conditions:
+  HasEmailConfig: !And
+    - !Not
+      - !Equals
+        - ${env:COGNITO_EMAILS_FROM, ''}
+        - ''
+    - !Not
+      - !Equals
+        - ${env:SES_ARN, ''}
+        - ''
+
 Resources:
   UserPool:
     Type: AWS::Cognito::UserPool
@@ -31,6 +42,14 @@ Resources:
         PreTokenGenerationConfig:
           LambdaArn: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${self:service}-${self:provider.stage}-preTokenGenerationTrigger
           LambdaVersion: V2_0
+      EmailConfiguration: !If
+        - HasEmailConfig
+        -
+          EmailSendingAccount: DEVELOPER
+          From: ${env:COGNITO_EMAILS_FROM}
+          ReplyToEmailAddress: ${env:COGNITO_EMAILS_REPLY_TO}
+          SourceArn: ${env:SES_ARN}
+        - !Ref AWS::NoValue
 
   PreTokenGenerationLambdaPermission:
     Type: AWS::Lambda::Permission
