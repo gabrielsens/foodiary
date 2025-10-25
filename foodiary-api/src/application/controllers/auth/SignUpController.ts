@@ -16,10 +16,11 @@ export class SignUpController extends Controller<'public', SignUpController.Resp
   }: Controller.Request<'public', SignUpBody>): Promise<
     Controller.Response<SignUpController.Response>
   > {
-    const { account } = body;
-    const { accessToken, refreshToken } = await this.signUpUseCase.execute(
+    const { account, profile } = body;
+    const { accessToken, refreshToken } = await this.signUpUseCase.execute({
       account,
-    );
+      profile,
+    });
 
     return {
       statusCode: 201,

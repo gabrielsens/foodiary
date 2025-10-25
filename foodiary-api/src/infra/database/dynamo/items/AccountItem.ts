@@ -1,7 +1,7 @@
 import { Account } from '@application/entities/Account';
 
 export class AccountItem {
-  private readonly type = 'Account';
+  static readonly type = 'Account';
 
   private readonly keys: AccountItem.Keys;
 
@@ -32,7 +32,7 @@ export class AccountItem {
 
   toItem(): AccountItem.ItemType {
     return {
-      type: this.type,
+      type: AccountItem.type,
       ...this.keys,
       ...this.attrs,
     };

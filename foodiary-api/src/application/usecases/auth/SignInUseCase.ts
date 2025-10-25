@@ -11,15 +11,15 @@ export class SignInUseCase {
     password,
   }: SignInUseCase.Input): Promise<SignInUseCase.Output> {
     try {
-          const { accessToken, refreshToken } = await this.authGateway.signIn({
-      email,
-      password,
-    });
+      const { accessToken, refreshToken } = await this.authGateway.signIn({
+        email,
+        password,
+      });
 
-    return {
-      accessToken,
-      refreshToken,
-    };
+      return {
+        accessToken,
+        refreshToken,
+      };
     } catch {
       throw new InvalidCredentials();
     }

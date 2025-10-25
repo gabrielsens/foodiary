@@ -1,4 +1,5 @@
 import {
+  AdminDeleteUserCommand,
   ConfirmForgotPasswordCommand,
   ForgotPasswordCommand,
   GetTokensFromRefreshTokenCommand,
@@ -116,6 +117,15 @@ export class AuthGateway {
     await cognitoClient.send(command);
   }
 
+  async deleteUser({ externalId }: AuthGateway.DeleteUserParams) {
+    const command = new AdminDeleteUserCommand({
+      UserPoolId: this.appConfig.auth.cognito.pool.id,
+      Username: externalId,
+    });
+
+    await cognitoClient.send(command);
+  }
+
   private generateSecretHash(email: string) {
     const { id, secret } = this.appConfig.auth.cognito.client;
     return createHmac('SHA256', secret)
@@ -162,5 +172,9 @@ export namespace AuthGateway {
     email: string;
     code: string;
     newPassword: string;
+  }
+
+  export type DeleteUserParams = {
+    externalId: string;
   }
 }
